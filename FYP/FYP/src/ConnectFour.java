@@ -4,6 +4,7 @@ import java.util.*;
 
 public class ConnectFour {
 
+    static Scanner scan = new Scanner(System.in);
     public static void main(String args[]){
         Connect4(createBoard(),1);
     }
@@ -23,37 +24,35 @@ public class ConnectFour {
 
     public static void Connect4(int[][] board,int Player){
         printBoard(board);
-        System.out.println("1");
         makeMove(board, Player);
-        System.out.println("2");
         nextMove(board,Player);
     }
 
     public static int[][] makeMove(int[][] board, int Player){
         System.out.println("Select column 0-6");
-        Scanner scan = new Scanner(System.in);
         int chosenColumn = scan.nextInt();
-        scan.close();
+        if(chosenColumn > 6){
+            System.out.println("Invalid Column");
+            chosenColumn=0;
+            makeMove(board, Player);
+        }
         int columnHeight = board.length-1;
+        System.out.println("Column height value " + columnHeight);
         for(int i=0; i<=columnHeight; i++){
-            System.out.println(i);
+            System.out.println("Checking slot at value " + i);
+            System.out.println(board[chosenColumn][i]);
             if(board[0][chosenColumn]!=0){
                 System.out.println("Column Full, Please choose another Column");
                 return makeMove(board, Player);
             }
             else if(board[i][chosenColumn]!=0){
-                System.out.println("Regular");
                 board[i-1][chosenColumn] = Player;
                 return board;
             }
-            else {
-                System.out.println("Bottom");
-                board[columnHeight][chosenColumn] = Player;
-                return board;
-            }
         }
-
+        board[columnHeight][chosenColumn] = Player;
         return board;
+        
     }
 
     public static void printBoard(int[][] board){
