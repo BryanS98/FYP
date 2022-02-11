@@ -26,8 +26,9 @@ public class ConnectFour {
     public static void Connect4(int[][] board,int Player){
         printBoard(board);
         makeMove(board, Player);
-        checkWin(board, Player);
-        nextMove(board,Player);
+        boolean win = checkWin(board, Player);
+        if(!win) nextMove(board,Player);
+        return;
     }
 
     public static int[][] makeMove(int[][] board, int Player){
@@ -40,7 +41,6 @@ public class ConnectFour {
             makeMove(board, Player);
         }
         int columnHeight = board.length-1;
-        System.out.println("Column height value " + columnHeight);
         for(int i=0; i<=columnHeight; i++){
             if(board[0][chosenColumn]!=0){
                 System.out.println("Column Full, Please choose another Column");
@@ -84,80 +84,55 @@ public class ConnectFour {
 
      
     public static boolean checkWin(int [][] board, int Player){
-        //LastCol and LastRow
-        int lastCounter = board[lastRow][lastCol];
-        int height = board.length;
-        int width = board[0].length;
-        int score = 0;
-        //Horizontal Check
-        int i = 0;
-        while(board[lastCol][lastRow+i]==Player){
-            score++;
-            i++;
-            System.out.println("score: " + score);
-            if(score==4) {
-                System.out.println("Horizontal win");
-                return true;
-            }
-        }
-        while(board[lastCol][lastRow-i]==Player){
-            score++;
-            i--;
-            System.out.println("score: " + score);
-            if(score==4) {
-                System.out.println("You Win!");
-                return true;
-            }
-        }
         
-        //reset score and i value
-        i = 0;
-        score = 0;
-        //Vertical Check
-        while(board[lastCol+i][lastRow]==Player){
+        int height = board.length-1;
+        int width = board[0].length-1;
+        int score = 1;
+        int i = 1;
+
+        System.out.println("Scores for player: " + Player);
+
+        //Verical Check
+        while(lastRow+i<=height && board[lastRow+i][lastCol]==Player){
             score++;
             i++;
-            System.out.println("score: " + score);
             if(score==4) {
-                System.out.println("You Win!");
+                System.out.println("Vertical Win for Player: " + Player);
                 return true;
             }
         }
-        while(board[lastCol-i][lastRow]==Player){
-            score++;
-            i--;
-            System.out.println("score: " + score);
-            if(score==4) {
-                System.out.println("You Win!");
-                return true;
-            }
-        }
+        System.out.println("Vertical score: " + score);
+        score = 1;
 
-        //Reset score and i value
-        i = 0;
-        score = 0;
-        //Diagonal Check
-        while(board[lastCol+i][lastRow+i]==Player){
+        //Right Horizontal Check
+        while(lastCol+i<=width && board[lastRow][lastCol+i]==Player){
             score++;
             i++;
-            System.out.println("score: " + score);
             if(score==4) {
-                System.out.println("You Win!");
+                System.out.println("Horizontal Win for Player: " + Player);
                 return true;
             }
         }
-        while(board[lastCol-i][lastRow-i]==Player){
+        //Left Horizontal Check
+        i = 3-i;
+        while(lastCol-i>=0 && i>0 && board[lastRow][lastCol-i]==Player){
             score++;
             i--;
-            System.out.println("score: " + score);
             if(score==4) {
-                System.out.println("You Win!");
+                System.out.println("Horizontal Win for Player: " + Player);
                 return true;
             }
         }
+        System.out.println("Horizontal score: " + score);
+        score = 1;
 
-        score = 0;
+
+
+
+
         
+        
+
         return false;
     }
 
