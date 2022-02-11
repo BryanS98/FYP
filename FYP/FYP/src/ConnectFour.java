@@ -103,13 +103,14 @@ public class ConnectFour {
         }
         System.out.println("Vertical score: " + score);
         score = 1;
+        i = 1;
 
         //Right Horizontal Check
         while(lastCol+i<=width && board[lastRow][lastCol+i]==Player){
             score++;
             i++;
             if(score==4) {
-                System.out.println("Horizontal Win for Player: " + Player);
+                System.out.println("+Horizontal Win for Player: " + Player);
                 return true;
             }
         }
@@ -119,19 +120,58 @@ public class ConnectFour {
             score++;
             i--;
             if(score==4) {
-                System.out.println("Horizontal Win for Player: " + Player);
+                System.out.println("-Horizontal Win for Player: " + Player);
                 return true;
             }
         }
         System.out.println("Horizontal score: " + score);
         score = 1;
 
+        //L-R Diagonal Check
+        while(lastCol+i<=width && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol+i]==Player){
+            score++;
+            i++;
+            if(score==4) {
+                System.out.println("+L-R Diagonal Win for Player: " + Player);
+                return true;
+            }
+        }
+
+        i = 3-i;
+        while(lastCol-i>=0 && lastRow-i>=0 && i!=0 && board[lastRow-i][lastCol-i]==Player){
+            score++;
+            i--;
+            if(score==4) {
+                System.out.println("-L-R Diagonal Win for Player: " + Player);
+                return true;
+            }
+        }
+        System.out.println("L-R Diagonal score: " + score);
+        score = 1;
 
 
+        //R-L Diagonal Check
+        while(lastCol-i>=0 && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol-i]==Player){
+            score++;
+            i++;
+            if(score==4) {
+                System.out.println("+R-L Diagonal Win for Player: " + Player);
+                return true;
+            }
+        }
 
+        i = 3-i;
 
-        
-        
+        while(lastCol-i>=0 && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol-i]==Player){
+            score++;
+            i--;
+            if(score==4) {
+                System.out.println("-R-L Diagonal Win for Player: " + Player);
+                return true;
+            }
+        }
+        System.out.println("R-L Diagonal score: " + score);
+        score = 1;
 
         return false;
     }
