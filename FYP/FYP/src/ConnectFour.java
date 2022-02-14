@@ -1,20 +1,21 @@
-
-
 import java.util.*;
-
+ 
 public class ConnectFour {
-
+ 
     static Scanner scan = new Scanner(System.in);
     static int lastCol, lastRow;
+ 
+    private static WinChecker _winChecker = new WinChecker();
+ 
     public static void main(String args[]){
-        Connect4(createBoard(),1);
+        Connect4(createBoard());
     }
-
+ 
     public static int[][] createBoard(){
         int width = 7;
         int height = 6;
         int[][] board = new int[height][width];
-
+ 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 board[i][j] = 0;
@@ -22,15 +23,37 @@ public class ConnectFour {
         }
         return board;
     }
-
-    public static void Connect4(int[][] board,int Player){
-        printBoard(board);
-        makeMove(board, Player);
-        boolean win = checkWin(board, Player);
-        if(!win) nextMove(board,Player);
+ 
+    public static void Connect4(int[][] board){
+ 
+    	boolean game_running = true;
+ 
+    	while(game_running) 
+    	{
+            if(performTurn(board, 1))
+            {
+            	game_running = false;
+            	continue; //exit loop
+            }
+ 
+            if(performTurn(board, 2)) 
+            {
+            	game_running = false;
+            	continue; //exit loop
+            }
+    	}
+ 
         return;
     }
-
+ 
+    public static boolean performTurn(int[][] board, int playerId) 
+    {
+        printBoard(board);
+        makeMove(board, playerId);
+ 
+        return checkWin(board, playerId);
+    }
+ 
     public static int[][] makeMove(int[][] board, int Player){
         System.out.println("Select column 0-6");
         int chosenColumn = scan.nextInt();
@@ -55,9 +78,9 @@ public class ConnectFour {
         board[columnHeight][chosenColumn] = Player;
         lastRow = columnHeight;
         return board;
-        
+ 
     }
-
+ 
     public static void printBoard(int[][] board){
         int h = board.length;
         int w = board[0].length;
@@ -69,111 +92,76 @@ public class ConnectFour {
                 else{
                     System.out.print(board[i][j] + " | ");
                 }
-                
+ 
             }
             System.out.println("\n" + "---------------------------");
         }
     }
-
-    public static void nextMove(int[][] board, int Player){
-        if(Player == 1){
-            Connect4(board,2);
-        }
-        Connect4(board,1);
-    }
-
-     
-    public static boolean checkWin(int [][] board, int Player){
-        
+ 
+ 
+    public static boolean checkWin(int [][] board, int player){
+ 
         int height = board.length-1;
         int width = board[0].length-1;
         int score = 1;
         int i = 1;
-
-        System.out.println("Scores for player: " + Player);
-
-        //Verical Check
-        while(lastRow+i<=height && board[lastRow+i][lastCol]==Player){
-            score++;
-            i++;
-            if(score==4) {
-                System.out.println("Vertical Win for Player: " + Player);
-                return true;
-            }
+ 
+        System.out.println("Scores for player: " + player);
+ 
+        if(_winChecker.CheckHorizontalWin(board, player)) {
+        	return true;
         }
-        System.out.println("Vertical score: " + score);
-        score = 1;
-        i = 1;
-
-        //Right Horizontal Check
-        while(lastCol+i<=width && board[lastRow][lastCol+i]==Player){
-            score++;
-            i++;
-            if(score==4) {
-                System.out.println("+Horizontal Win for Player: " + Player);
-                return true;
-            }
+        if(_winChecker.CheckVerticalWin(board, player)) {
+        	return true;
         }
-        //Left Horizontal Check
-        i = 3-i;
-        while(lastCol-i>=0 && i>0 && board[lastRow][lastCol-i]==Player){
-            score++;
-            i--;
-            if(score==4) {
-                System.out.println("-Horizontal Win for Player: " + Player);
-                return true;
-            }
-        }
-        System.out.println("Horizontal score: " + score);
-        score = 1;
-
+ 
         //L-R Diagonal Check
-        while(lastCol+i<=width && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol+i]==Player){
+        while(lastCol+i<=width && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol+i]==player){
             score++;
             i++;
             if(score==4) {
-                System.out.println("+L-R Diagonal Win for Player: " + Player);
+                System.out.println("+L-R Diagonal Win for Player: " + player);
                 return true;
             }
         }
-
+ 
         i = 3-i;
-        while(lastCol-i>=0 && lastRow-i>=0 && i!=0 && board[lastRow-i][lastCol-i]==Player){
+        while(lastCol-i>=0 && lastRow-i>=0 && i!=0 && board[lastRow-i][lastCol-i]==player){
             score++;
             i--;
             if(score==4) {
-                System.out.println("-L-R Diagonal Win for Player: " + Player);
+                System.out.println("-L-R Diagonal Win for Player: " + player);
                 return true;
             }
         }
         System.out.println("L-R Diagonal score: " + score);
         score = 1;
-
-
+ 
+ 
         //R-L Diagonal Check
-        while(lastCol-i>=0 && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol-i]==Player){
+        while(lastCol-i>=0 && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol-i]==player){
             score++;
             i++;
             if(score==4) {
-                System.out.println("+R-L Diagonal Win for Player: " + Player);
+                System.out.println("+R-L Diagonal Win for Player: " + player);
                 return true;
             }
         }
-
+ 
         i = 3-i;
-
-        while(lastCol-i>=0 && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol-i]==Player){
+ 
+        while(lastCol-i>=0 && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol-i]==player){
             score++;
             i--;
             if(score==4) {
-                System.out.println("-R-L Diagonal Win for Player: " + Player);
+                System.out.println("-R-L Diagonal Win for Player: " + player);
                 return true;
             }
         }
         System.out.println("R-L Diagonal score: " + score);
         score = 1;
-
+ 
         return false;
     }
-
+ 
 }
