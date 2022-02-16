@@ -113,7 +113,7 @@ public class ConnectFour {
         }
         if(_winChecker.CheckVerticalWin(board, player)) {
         	return true;
-        }
+        } 
  
         //L-R Diagonal Check
         while(lastCol+i<=width && lastRow+i<=height && i!=0 && board[lastRow+i][lastCol+i]==player){

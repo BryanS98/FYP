@@ -2,7 +2,7 @@ public class WinChecker {
  
     public WinChecker() {}
      
-    public boolean CheckHorizontalWin(int[][] board, int playerId) 
+    public boolean CheckVerticalWin(int[][] board, int playerId) 
     {
         for(int colId = 0; colId < board[0].length /*columns*/; colId++) {
             int columnScore = 0;
@@ -14,7 +14,7 @@ public class WinChecker {
                     columnScore = 0; //Reset column score if there's a break
                 }
                 if(columnScore == 4) {
-                        System.out.println("Horizontal Win for Player: " + playerId + " on column #" + colId);
+                        System.out.println("Vertical Win for Player: " + playerId + " on column #" + colId);
                         return true;
                     }
                 }
@@ -23,7 +23,7 @@ public class WinChecker {
             return false;
         }
      
-    public boolean CheckVerticalWin(int[][] board, int playerId)
+    public boolean CheckHorizontalWin(int[][] board, int playerId)
     {
         for(int rowId = 0; rowId < board.length; rowId++)
         {
@@ -38,7 +38,7 @@ public class WinChecker {
                 }			
      
                     if(rowScore == 4) {
-                    System.out.println("Vertical Win for Player: " + playerId + " on row #" + rowId);
+                    System.out.println("Horizontal Win for Player: " + playerId + " on row #" + rowId);
                     return true;
                 }
                }
