@@ -1,3 +1,4 @@
+
 public class WinChecker {
  
     public WinChecker() {}
@@ -46,4 +47,50 @@ public class WinChecker {
      
         return false;
     }
+    
+    public boolean CheckDiagonalWin(int[][] board, int playerId, int lastRow, int lastCol) 
+    {
+    	var score = 0;
+    	
+    	//CheckDiagonalWinRec(board, playerId, lastRow, lastCol, score);
+    			
+    	// Left Right Down
+    	    	
+        for(int rowId = lastRow+1; rowId < lastRow + 4; rowId++)
+        {
+            for(var colId = lastCol+1; colId < lastCol + 4; colId++) 
+            {
+            	if(board[rowId][colId] == playerId)
+            	{
+            		score++;
+            	}
+            	
+            	if(score == 3) 
+            	{
+            		return true;
+            	}            	
+            	
+            }
+        }
+        
+        return false;
+    	
+    }
+    
+    /*public boolean CheckDiagonalWinRec(int[][] board, int playerId, int rowId, int colId, int score) 
+    {
+    	if(score == 4) {
+    		return true;
+    	}
+    	
+    	while(rowId <= board.length) 
+    	{
+    		
+    	}
+    	
+    	return false;
+    }*/
+
+   
+    
 }
