@@ -41,6 +41,7 @@ public class ConnectFour {
             	game_running = false;
             	continue; //exit loop
             }
+
     	}
         
         return;
@@ -49,26 +50,34 @@ public class ConnectFour {
     public static boolean performTurn(int[][] board, int playerId) 
     {
         printBoard(board);
-        makeMove(board, playerId);
+
+        System.out.println("Select column 0-6");
+        int move = scan.nextInt();
+        while(!validateMove(board, playerId, move)){
+            move = scan.nextInt();
+        }
+        makeMove(board, playerId, move);
         return checkWin(board, playerId);
     }
- 
-    public static int[][] makeMove(int[][] board, int Player){
-        System.out.println("Select column 0-6");
-        int chosenColumn = scan.nextInt();
-        lastCol = chosenColumn;
-        if(chosenColumn > 6){
+
+    public static boolean validateMove(int[][]board, int playerId, int move){
+        if(move > 6){
             System.out.println("Invalid Column");
-            chosenColumn=0;
-            makeMove(board, Player);
+            return false;
         }
+        else if(board[1][move]!=0){
+            System.out.println("Column full");
+            return false;
+        }
+        
+        return true;
+    }
+ 
+    public static int[][] makeMove(int[][] board, int Player, int chosenColumn){
+        lastCol = chosenColumn;
         int columnHeight = board.length-1;
         for(int i=0; i<=columnHeight; i++){
-            if(board[0][chosenColumn]!=0){
-                System.out.println("Column Full, Please choose another Column");
-                return makeMove(board, Player);
-            }
-            else if(board[i][chosenColumn]!=0){
+            if(board[i][chosenColumn]!=0){
                 board[i-1][chosenColumn] = Player;
                 lastRow = i-1;
                 return board;

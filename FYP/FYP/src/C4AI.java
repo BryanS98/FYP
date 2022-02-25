@@ -44,6 +44,7 @@ class C4Sim {
 
     static final int DRAW_GAME = 2;
     static final int CONTINUE_GAME = -2;
+    static final int GAME_WON = 1;
 
     ArrayList<ArrayList<Integer>> winningMoves; // holds all winning moves for look-up;
     Random rand;
@@ -51,10 +52,6 @@ class C4Sim {
     C4Sim() {
 
 
-    }
-
-    private void setWinningMoves() {
-        
     }
 
     int simGameFromNode(Node n) { // do rollout
@@ -67,9 +64,12 @@ class C4Sim {
         while (true) { // simulate a random game
 
             ArrayList<Integer> moves = getAllPossibleMoves(currentGameState);
+            if(moves.isEmpty()){
+                return DRAW_GAME;
+            }
             int randomMoveIndex = rand.nextInt(moves.size());
             int moveToMake = moves.get(randomMoveIndex);
-            currentGameState[moveToMake] = player;
+            ConnectFour.makeMove(currentGameState, player, moveToMake);
             int won = GameDecided(currentGameState, player);
             if (won != CONTINUE_GAME)
                 return won;
@@ -78,8 +78,11 @@ class C4Sim {
         }
     }
 
-    int GameDecided(int[] gameBoard, int player){
-        if()
+    int GameDecided(int[][] gameBoard, int player){
+        if(ConnectFour.checkWin(gameBoard, player)){
+            return GAME_WON;
+        }
+        return CONTINUE_GAME;
     }
 
     ArrayList<Integer> getAllPossibleMoves(int[][] gameBoard){
