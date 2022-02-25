@@ -41,7 +41,6 @@ public class ConnectFour {
             	game_running = false;
             	continue; //exit loop
             }
-            System.out.println("fucking kill me");
     	}
         
         return;

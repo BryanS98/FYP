@@ -150,7 +150,7 @@ class TTTSim {
                 System.out.print(" - ");
 
             if (i == 2 | i == 5)
-                System.out.println("\n" + "––– ––– –––"); // Skip to next line every 3 symbols to create 3x3 grid
+                System.out.println("\n" + "--- --- ---"); // Skip to next line every 3 symbols to create 3x3 grid
             else if (i == 0 | i == 1 | i == 3| i == 4 | i == 6| i == 7)
                 System.out.print("|"); // Create a verical line between each symbol
         }
