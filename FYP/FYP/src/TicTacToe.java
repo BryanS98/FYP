@@ -4,7 +4,7 @@ import java.util.*;
 public class TicTacToe {
     public static void main(String[] args) {
 
-        MCTS f = new MCTS();
+        TTTMCTS f = new TTTMCTS();
         int numIter = 1000;
 
         int[] initGameBoard = new int[9];
@@ -14,9 +14,9 @@ public class TicTacToe {
         while (true) { // game loop
 
             if (iter == 0) {
-                f.rootNode = new Node(TTTSim.O, null, initGameBoard, -1);
+                f.rootNode = new TTTNode(TTTSim.O, null, initGameBoard, -1);
             } else {
-                f.rootNode = new Node(f.bestPath.currentPlayer, null, f.bestPath.gameBoard, f.bestPath.move);
+                f.rootNode = new TTTNode(f.bestPath.currentPlayer, null, f.bestPath.gameBoard, f.bestPath.move);
             }
             if (!f.Sim.getAllPossibleMoves(f.rootNode.gameBoard).isEmpty())
                 f.findBestPath(numIter);
@@ -27,26 +27,26 @@ public class TicTacToe {
     }
 }
 
-class Node implements Comparable<Node> { // representing the state of the game
+class TTTNode implements Comparable<TTTNode> { // representing the state of the game
 
     int currentPlayer; // 0 if o's turn has been played, 1 otherwise;
-    Node parent; //Parent node of current node
+    TTTNode parent; //Parent node of current node
     public int[] gameBoard; // representing the board
     int move; // 0-8
-    ArrayList<Node> children; //Child nodes of current node
+    ArrayList<TTTNode> children; //Child nodes of current node
     double numVisits, UCTValue, victories, draws, losses = 0; //Values for the UCT formula
     int winner = TTTSim.CONTINUE_GAME; // indicates if node is end game node (game is won, lost or drawn)
 
-    Node(int pl, Node p, int[] s, int m) { //Create node object and set parameters
+    TTTNode(int pl, TTTNode p, int[] s, int m) { //Create node object and set parameters
         currentPlayer = pl;
         parent = p;
         gameBoard = s;
         move = m;
-        children = new ArrayList<Node>();
+        children = new ArrayList<TTTNode>();
     }
 
     @Override
-    public int compareTo(Node other) { // sort nodes in descending order according to their UCT value
+    public int compareTo(TTTNode other) { // sort nodes in descending order according to their UCT value
 
         return Double.compare(other.UCTValue, UCTValue);
     }
@@ -93,7 +93,7 @@ class TTTSim {
                 new ArrayList<Integer>(Arrays.asList(2, 4, 6))));
     }
 
-    int simGameFromNode(Node n) { // do rollout
+    int simGameFromNode(TTTNode n) { // do rollout
 
         if (n.winner != CONTINUE_GAME)
             return n.winner; // check if game is won and node is terminal
@@ -152,25 +152,25 @@ class TTTSim {
             if (i == 2 | i == 5)
                 System.out.println("\n" + "--- --- ---"); // Skip to next line every 3 symbols to create 3x3 grid
             else if (i == 0 | i == 1 | i == 3| i == 4 | i == 6| i == 7)
-                System.out.print("|"); // Create a verical line between each symbol
+                System.out.print("|"); // Create a vertical line between each symbol
         }
     }
 
 }
 
-class MCTS {
+class TTTMCTS {
 
     TTTSim Sim;
-    Node rootNode;
-    Node bestPath;
+    TTTNode rootNode;
+    TTTNode bestPath;
     
-    MCTS() {
+    TTTMCTS() {
     
         Sim = new TTTSim();
     }
 
-    Node nodeSelector() {
-        Node current = rootNode;
+    TTTNode nodeSelector() {
+        TTTNode current = rootNode;
 
         while (true) {
             if(current.winner != TTTSim.CONTINUE_GAME) {
@@ -181,7 +181,7 @@ class MCTS {
                 return current.children.get(0);
             }
             else {
-                for(Node node : current.children){
+                for(TTTNode node : current.children){
                     node.setUCT();
                 }
 
@@ -196,18 +196,18 @@ class MCTS {
         
     }
 
-    void getKids(Node parent){
+    void getKids(TTTNode parent){
         ArrayList<Integer> paths = Sim.getAllPossibleMoves(parent.gameBoard);
         for (Integer i : paths) {
             int[] nextGameState = parent.gameBoard.clone();
             nextGameState[i] = parent.currentPlayer ^ 1;
-            Node child = new Node(parent.currentPlayer ^ 1, parent, nextGameState, i);
+            TTTNode child = new TTTNode(parent.currentPlayer ^ 1, parent, nextGameState, i);
             child.winner = Sim.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
             parent.children.add(child);
         }
     }
 
-    void backPropagateRollout(Node current, int won) {
+    void backPropagateRollout(TTTNode current, int won) {
         while(current != null){
             if(won == TTTSim.DRAW_GAME){
                 current.draws++;
@@ -225,7 +225,7 @@ class MCTS {
     
     void findBestPath(int Sims) {
 
-    Node current = null;
+    TTTNode current = null;
     for(int i = 0;i<Sims;i++){
             current = nodeSelector();
             int won = Sim.simGameFromNode(current);
@@ -234,7 +234,7 @@ class MCTS {
 
         double visits = 0.0;
 
-        for(Node child: rootNode.children){
+        for(TTTNode child: rootNode.children){
             if(child.numVisits >= visits){
                 bestPath = child;
                 visits = child.numVisits;
