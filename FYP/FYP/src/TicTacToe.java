@@ -15,6 +15,7 @@ public class TicTacToe {
 
         int iter = 0;
         int player = 1;
+        boolean again = true;
         while (true) { // game loop
             TTTSim.printBoard(GameBoard);
             if (player == 1) {
@@ -27,6 +28,7 @@ public class TicTacToe {
                 GameBoard[move] = 1;
                 f.rootNode = new TTTNode(0, f.rootNode, GameBoard, move);
                 if (TTTSim.GameDecided(GameBoard, 1) == 1) {
+                    TTTSim.printBoard(GameBoard);
                     System.out.println("Player 1 Wins!");
                     break;
                 }
@@ -36,11 +38,17 @@ public class TicTacToe {
                 else {
                     break;
                 }
+                if (TTTSim.GameDecided(GameBoard, 0) == 0) {
+                    TTTSim.printBoard(GameBoard);
+                    System.out.println("Player 2 Wins!");
+                    break;
+                }
                 f.rootNode = new TTTNode(f.bestPath.currentPlayer, null, f.bestPath.gameBoard, f.bestPath.move);
             }
             TTTSim.checkDraw(GameBoard);
             player = switchPlayer(player);
         }
+
     }
 
     static int switchPlayer(int player) {

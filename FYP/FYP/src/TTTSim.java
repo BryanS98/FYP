@@ -23,8 +23,19 @@ public class TTTSim {
         TTTNode current = n;
         int player = current.currentPlayer;
         while (true) { // simulate a random game
-
+            if (checkDraw(current.gameBoard)) {
+                current.GameState = DRAW_GAME;
+                return current;
+            }
             ArrayList<Integer> moves = getAllPossibleMoves(current.gameBoard);
+            int size = moves.size();
+            if (size == 0) {
+                System.out.println("Oh No!");
+                if (checkDraw(current.gameBoard)) {
+                    current.GameState = DRAW_GAME;
+                    return current;
+                }
+            }
             int randomMoveIndex = rand.nextInt(moves.size());
             int moveToMake = moves.get(randomMoveIndex);
             if (current.children.isEmpty()) {
@@ -35,6 +46,10 @@ public class TTTSim {
             int won = GameDecided(current.gameBoard, player);
             if (won != CONTINUE_GAME) {
                 current.GameState = won;
+                return current;
+            }
+            if (checkDraw(current.gameBoard)) {
+                current.GameState = DRAW_GAME;
                 return current;
             }
             player ^= 1;
@@ -121,7 +136,7 @@ public class TTTSim {
     static boolean checkDraw(int[] gameBoard) {
         int empty = 0;
         for (int i = 0; i < gameBoard.length; i++) {
-            if (gameBoard[i] != -1) {
+            if (gameBoard[i] == -1) {
                 empty++;
             }
         }
