@@ -31,7 +31,7 @@ class C4Sim {
             }
             ArrayList<Integer> moves = getAllPossibleMoves(current.gameBoard, current.currentPlayer);
             int size = moves.size();
-            int randomMoveIndex = rand.nextInt(moves.size());
+            int randomMoveIndex = rand.nextInt(size);
             int moveToMake = moves.get(randomMoveIndex);
             if (current.children.isEmpty()) {
                 MCTS.getKids(current);

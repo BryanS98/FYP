@@ -2,9 +2,10 @@ import java.util.Scanner;
 
 public class ConnectFour {
 
-    public static C4MCTS C = new C4MCTS();
+    public static C4MCTS MCTS = new C4MCTS();
     static Scanner scan = new Scanner(System.in);
     static int lastCol, lastRow;
+    static int iter = 0;
 
     private static C4WinCheck _winChecker = new C4WinCheck();
 
@@ -60,20 +61,16 @@ public class ConnectFour {
             return checkWin(board, playerId);
         } else {
             int numIter = 1000;
-            int iter = 0;
             while (true) {
                 if (iter == 0) {
-                    C.rootNode = new C4Node(C4Sim.Player2, null, board, 1);
-                } else {
-                    C.rootNode = new C4Node(C.bestPath.currentPlayer, C.bestPath, C.bestPath.gameBoard,
-                            C.bestPath.move);
+                    MCTS.rootNode = new C4Node(C4Sim.Player2, null, board, 1);
                 }
                 iter++;
                 System.out.println("Iter: " + iter);
-                if (!C.Sim.getAllPossibleMoves(C.rootNode.gameBoard, C.rootNode.currentPlayer).isEmpty()) {
-                    C.rootNode = C.findBestPath(numIter);
-                    System.out.println("Root Node move: " + C.rootNode.move + "");
-                    makeMove(board, playerId, C.rootNode.move);
+                if (!MCTS.Sim.getAllPossibleMoves(MCTS.rootNode.gameBoard, MCTS.rootNode.currentPlayer).isEmpty()) {
+                    MCTS.rootNode = MCTS.findBestPath(numIter);
+                    System.out.println("Root Node move: " + MCTS.rootNode.move + "");
+                    makeMove(board, playerId, MCTS.rootNode.move);
                     return checkWin(board, playerId);
                 }
                 return checkWin(board, playerId);
