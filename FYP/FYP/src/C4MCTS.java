@@ -16,7 +16,7 @@ class C4MCTS {
         C4Node current = rootNode;
 
         while (true) {
-            if (current.winner != C4Sim.CONTINUE_GAME) {
+            if (current.gameState != C4Sim.CONTINUE_GAME) {
                 return current;
             }
             if (current.children.isEmpty()) {
@@ -49,7 +49,7 @@ class C4MCTS {
 
             nextGameState = ConnectFour.makeMove(nextGameState, p, move);
             C4Node child = new C4Node(p, parent, nextGameState, move);
-            child.winner = Sim.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
+            child.gameState = Sim.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
             parent.children.add(child);
         }
     }
@@ -63,7 +63,7 @@ class C4MCTS {
             } else {
                 current.losses++;
             }
-
+            current.numVisits++;
             current = current.parent;
         }
     }

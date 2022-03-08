@@ -51,8 +51,8 @@ public class ConnectFour {
 
     public static boolean performTurn(int[][] board, int playerId) {
         if (playerId == 1) {
-            System.out.println("Select column 0-6");
-            int move = scan.nextInt();
+            System.out.println("Select column 1-7");
+            int move = scan.nextInt() - 1;
             while (!validateMove(board, playerId, move)) {
                 move = scan.nextInt();
             }

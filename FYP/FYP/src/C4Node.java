@@ -8,7 +8,7 @@ public class C4Node implements Comparable<C4Node> { // representing the state of
     int move; // 0-6
     ArrayList<C4Node> children; // Child nodes of current node
     double numVisits, UCTValue, victories, draws, losses = 0; // Values for the UCT formula
-    int winner = C4Sim.CONTINUE_GAME; // indicates if C4Node is end game C4Node (game is won, lost or drawn)
+    int gameState = C4Sim.CONTINUE_GAME; // indicates if C4Node is end game C4Node (game is won, lost or drawn)
 
     C4Node(int pl, C4Node p, int[][] s, int m) { // Create C4Node object and set parameters
         currentPlayer = pl;
