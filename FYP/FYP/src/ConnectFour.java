@@ -6,9 +6,10 @@ public class ConnectFour {
     static Scanner scan = new Scanner(System.in);
     static int lastCol, lastRow;
 
-    private static WinChecker _winChecker = new WinChecker();
+    private static C4WinCheck _winChecker = new C4WinCheck();
 
     public static void main(String args[]) {
+
         Connect4(createBoard());
     }
 
@@ -33,11 +34,13 @@ public class ConnectFour {
             if (performTurn(board, 1)) {
                 game_running = false;
                 System.out.println("Player 1 wins!");
+                printBoard(board);
                 continue; // exit loop
             }
             if (performTurn(board, 2)) {
                 game_running = false;
                 System.out.println("Player 2 wins!");
+                printBoard(board);
                 continue; // exit loop
             }
 
@@ -56,7 +59,7 @@ public class ConnectFour {
             makeMove(board, playerId, move);
             return checkWin(board, playerId);
         } else {
-            int numIter = 1;
+            int numIter = 1000;
             int iter = 0;
             while (true) {
                 if (iter == 0) {
@@ -66,12 +69,14 @@ public class ConnectFour {
                             C.bestPath.move);
                 }
                 iter++;
+                System.out.println("Iter: " + iter);
                 if (!C.Sim.getAllPossibleMoves(C.rootNode.gameBoard, C.rootNode.currentPlayer).isEmpty()) {
-                    C.findBestPath(numIter);
+                    C.rootNode = C.findBestPath(numIter);
+                    System.out.println("Root Node move: " + C.rootNode.move + "");
                     makeMove(board, playerId, C.rootNode.move);
                     return checkWin(board, playerId);
-                } else
-                    return checkWin(board, playerId);
+                }
+                return checkWin(board, playerId);
             }
         }
 
@@ -119,7 +124,7 @@ public class ConnectFour {
             }
             System.out.println("\n" + "---------------------------");
         }
-        System.out.println("\n\n");
+        System.out.println("\n");
     }
 
     public static boolean checkWin(int[][] board, int player) {
