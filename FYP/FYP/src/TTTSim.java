@@ -37,7 +37,6 @@ public class TTTSim {
                 }
             }
             int randomMoveIndex = rand.nextInt(moves.size());
-            int moveToMake = moves.get(randomMoveIndex);
             if (current.children.isEmpty()) {
                 getKids(current);
             }

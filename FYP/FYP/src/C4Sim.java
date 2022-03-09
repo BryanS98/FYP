@@ -1,12 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class C4AI {
-    public C4AI() {
-    }
-}
-
-class C4Sim {
+public class C4Sim {
 
     static final int DRAW_GAME = -1;
     static final int CONTINUE_GAME = -2;
@@ -32,9 +27,8 @@ class C4Sim {
             ArrayList<Integer> moves = getAllPossibleMoves(current.gameBoard, current.currentPlayer);
             int size = moves.size();
             int randomMoveIndex = rand.nextInt(size);
-            int moveToMake = moves.get(randomMoveIndex);
             if (current.children.isEmpty()) {
-                MCTS.getKids(current);
+                current.getKids(this);
             }
             current = current.children.get(randomMoveIndex);
             current.currentPlayer = player;

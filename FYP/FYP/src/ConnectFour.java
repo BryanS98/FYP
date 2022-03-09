@@ -7,6 +7,7 @@ public class ConnectFour {
     static int lastCol, lastRow;
     static int iter = 0;
     private static C4WinCheck _winChecker = new C4WinCheck();
+    
 
     public static void main(String args[]) {
 
@@ -29,6 +30,7 @@ public class ConnectFour {
     public static void Connect4(int[][] board) {
 
         boolean game_running = true;
+        MCTS.rootNode = new C4Node(1, null, board, -1);
         while (game_running) {
             printBoard(board);
             if (performTurn(board, 1)) {
@@ -57,23 +59,17 @@ public class ConnectFour {
             while (!validateMove(board, playerId, move)) {
                 move = scan.nextInt();
             }
+            MCTS.rootNode = new C4Node(C4Sim.Player1, MCTS.rootNode , board, move);
             makeMove(board, playerId, move);
             return checkWin(board, playerId);
         } else {
             int numIter = 1000;
             while (true) {
-                if (iter == 0) {
-                    MCTS.rootNode = new C4Node(C4Sim.Player2, null, board, 1);
-                } else {
-                    MCTS.rootNode = new C4Node(MCTS.bestPath.currentPlayer, MCTS.bestPath, MCTS.bestPath.gameBoard,
-                            MCTS.bestPath.move);
-                }
-                iter++;
-                System.out.println("Iter: " + iter);
                 if (!MCTS.Sim.getAllPossibleMoves(MCTS.rootNode.gameBoard, MCTS.rootNode.currentPlayer).isEmpty()) {
-                    MCTS.rootNode = MCTS.findBestPath(numIter);
-                    System.out.println("Root Node move: " + MCTS.rootNode.move + "");
-                    makeMove(board, playerId, MCTS.rootNode.move);
+                    int chosenMove = MCTS.findBestPath(numIter);
+                    makeMove(board, playerId, chosenMove);
+                    MCTS.rootNode = new C4Node(C4Sim.Player2, MCTS.bestPath, MCTS.bestPath.gameBoard,
+                            MCTS.bestPath.move);
                     return checkWin(board, playerId);
                 }
                 return checkWin(board, playerId);
