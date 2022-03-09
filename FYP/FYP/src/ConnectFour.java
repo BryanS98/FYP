@@ -6,7 +6,6 @@ public class ConnectFour {
     static Scanner scan = new Scanner(System.in);
     static int lastCol, lastRow;
     static int iter = 0;
-
     private static C4WinCheck _winChecker = new C4WinCheck();
 
     public static void main(String args[]) {
@@ -38,6 +37,7 @@ public class ConnectFour {
                 printBoard(board);
                 continue; // exit loop
             }
+            printBoard(board);
             if (performTurn(board, 2)) {
                 game_running = false;
                 System.out.println("Player 2 wins!");
@@ -64,6 +64,9 @@ public class ConnectFour {
             while (true) {
                 if (iter == 0) {
                     MCTS.rootNode = new C4Node(C4Sim.Player2, null, board, 1);
+                } else {
+                    MCTS.rootNode = new C4Node(MCTS.bestPath.currentPlayer, MCTS.bestPath, MCTS.bestPath.gameBoard,
+                            MCTS.bestPath.move);
                 }
                 iter++;
                 System.out.println("Iter: " + iter);
@@ -95,7 +98,7 @@ public class ConnectFour {
         lastCol = chosenColumn;
         int columnHeight = board.length - 1;
         lastRow = columnHeight;
-        for (int i = 0; i <= columnHeight; i++) {
+        for (int i = 1; i <= columnHeight; i++) {
             if (board[i][chosenColumn] != 0) {
                 board[i - 1][chosenColumn] = Player;
                 lastRow = i - 1;

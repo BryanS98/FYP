@@ -78,6 +78,9 @@ class C4MCTS {
 
         C4Node current = null;
         for (int i = 0; i < Sims; i++) {
+            if (i == 800) {
+                System.out.println("!");
+            }
             current = nodeSelector();
             int won = Sim.simGameFromNode(current);
             backPropagateRollout(current, won);
@@ -88,7 +91,6 @@ class C4MCTS {
         for (C4Node child : rootNode.children) {
             if (child.numVisits >= visits) {
                 bestPath = child;
-                visits = child.numVisits;
             }
         }
         System.out.println("Best Path Move: " + bestPath.move);
