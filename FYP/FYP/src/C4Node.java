@@ -8,7 +8,7 @@ public class C4Node implements Comparable<C4Node> { // representing the state of
     int move; // 0-6
     ArrayList<C4Node> children; // Child nodes of current node
     double numVisits, UCTValue, victories, draws, losses = 0; // Values for the UCT formula
-    int winner = C4Sim.CONTINUE_GAME; // indicates if C4Node is end game C4Node (game is won, lost or drawn)
+    int gameState = C4Sim.CONTINUE_GAME; // indicates if C4Node is end game C4Node (game is won, lost or drawn)
 
     C4Node(int pl, C4Node p, int[][] s, int m) { // Create C4Node object and set parameters
         currentPlayer = pl;
@@ -31,5 +31,21 @@ public class C4Node implements Comparable<C4Node> { // representing the state of
         else
             UCTValue = ((victories + draws / 2) / numVisits)
                     + Math.sqrt(2) * Math.sqrt(Math.log(parent.numVisits) / numVisits);
+    }
+    
+    void getKids(C4Sim sim) {
+        ArrayList<Integer> paths = sim.getAllPossibleMoves(gameBoard, currentPlayer);
+        int p = currentPlayer;
+        for (int move : paths) {
+            int boardLength = gameBoard.length;
+            int[][] nextGameState = new int[boardLength][];
+            for (int i = 0; i < boardLength; i++)
+                nextGameState[i] = gameBoard[i].clone();
+
+            nextGameState = ConnectFour.makeMove(nextGameState, p, move);
+            C4Node child = new C4Node(p, this, nextGameState, move);
+            child.gameState = sim.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
+            children.add(child);
+        }
     }
 }

@@ -2,11 +2,12 @@ import java.util.Scanner;
 
 public class ConnectFour {
 
-    public static C4MCTS C = new C4MCTS();
+    public static C4MCTS MCTS = new C4MCTS();
     static Scanner scan = new Scanner(System.in);
     static int lastCol, lastRow;
-
+    static int iter = 0;
     private static C4WinCheck _winChecker = new C4WinCheck();
+    
 
     public static void main(String args[]) {
 
@@ -29,6 +30,7 @@ public class ConnectFour {
     public static void Connect4(int[][] board) {
 
         boolean game_running = true;
+        MCTS.rootNode = new C4Node(1, null, board, -1);
         while (game_running) {
             printBoard(board);
             if (performTurn(board, 1)) {
@@ -37,6 +39,7 @@ public class ConnectFour {
                 printBoard(board);
                 continue; // exit loop
             }
+            printBoard(board);
             if (performTurn(board, 2)) {
                 game_running = false;
                 System.out.println("Player 2 wins!");
@@ -51,29 +54,22 @@ public class ConnectFour {
 
     public static boolean performTurn(int[][] board, int playerId) {
         if (playerId == 1) {
-            System.out.println("Select column 0-6");
-            int move = scan.nextInt();
+            System.out.println("Select column 1-7");
+            int move = scan.nextInt() - 1;
             while (!validateMove(board, playerId, move)) {
                 move = scan.nextInt();
             }
+            MCTS.rootNode = new C4Node(C4Sim.Player1, MCTS.rootNode , board, move);
             makeMove(board, playerId, move);
             return checkWin(board, playerId);
         } else {
             int numIter = 1000;
-            int iter = 0;
             while (true) {
-                if (iter == 0) {
-                    C.rootNode = new C4Node(C4Sim.Player2, null, board, 1);
-                } else {
-                    C.rootNode = new C4Node(C.bestPath.currentPlayer, C.bestPath, C.bestPath.gameBoard,
-                            C.bestPath.move);
-                }
-                iter++;
-                System.out.println("Iter: " + iter);
-                if (!C.Sim.getAllPossibleMoves(C.rootNode.gameBoard, C.rootNode.currentPlayer).isEmpty()) {
-                    C.rootNode = C.findBestPath(numIter);
-                    System.out.println("Root Node move: " + C.rootNode.move + "");
-                    makeMove(board, playerId, C.rootNode.move);
+                if (!MCTS.Sim.getAllPossibleMoves(MCTS.rootNode.gameBoard, MCTS.rootNode.currentPlayer).isEmpty()) {
+                    int chosenMove = MCTS.findBestPath(numIter);
+                    makeMove(board, playerId, chosenMove);
+                    MCTS.rootNode = new C4Node(C4Sim.Player2, MCTS.bestPath, MCTS.bestPath.gameBoard,
+                            MCTS.bestPath.move);
                     return checkWin(board, playerId);
                 }
                 return checkWin(board, playerId);
@@ -98,7 +94,7 @@ public class ConnectFour {
         lastCol = chosenColumn;
         int columnHeight = board.length - 1;
         lastRow = columnHeight;
-        for (int i = 0; i <= columnHeight; i++) {
+        for (int i = 1; i <= columnHeight; i++) {
             if (board[i][chosenColumn] != 0) {
                 board[i - 1][chosenColumn] = Player;
                 lastRow = i - 1;
