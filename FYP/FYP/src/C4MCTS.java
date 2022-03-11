@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Collections;
 
 class C4MCTS {
@@ -38,7 +37,6 @@ class C4MCTS {
 
     }
 
-
     void backPropagateRollout(C4Node current, int aiPlayer) {
         int finalResult = current.gameState;
         while (true) {
@@ -63,23 +61,23 @@ class C4MCTS {
             return 2;
         return 1;
     }
-    
+
     void SetVisits(C4Node current) {
         while (true) {
             if (current.gameState != C4Sim.CONTINUE_GAME) {
                 return;
             } else {
-                for (C4Node node : current.children) {
-                    node.setUCT();
-                }
-                
-                int visits = (int) current.numVisits;
-                if (current.children.size()==0) {
+
+                if (current.children.size() == 0) {
                     current.getKids(Sim);
+                }
+                for (C4Node node : current.children) {
+                    current.numVisits++;
+                    node.setUCT();
                 }
                 Collections.sort(current.children);
                 current = current.children.get(0);
-                
+
             }
         }
     }
@@ -88,9 +86,6 @@ class C4MCTS {
 
         C4Node current = null;
         for (int i = 0; i < Sims; i++) {
-            if (i == 800) {
-                System.out.println("!");
-            }
             current = rootNode;
             int won = Sim.simGameFromNode(current);
             backPropagateRollout(current, C4Sim.Player2);

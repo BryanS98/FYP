@@ -7,7 +7,6 @@ public class ConnectFour {
     static int lastCol, lastRow;
     static int iter = 0;
     private static C4WinCheck _winChecker = new C4WinCheck();
-    
 
     public static void main(String args[]) {
 
@@ -59,20 +58,20 @@ public class ConnectFour {
             while (!validateMove(board, playerId, move)) {
                 move = scan.nextInt();
             }
-            MCTS.rootNode = new C4Node(C4Sim.Player1, MCTS.rootNode , board, move);
-            makeMove(board, playerId, move);
-            return checkWin(board, playerId);
+            MCTS.rootNode = new C4Node(C4Sim.Player1, MCTS.rootNode, board, move);
+            makeMove(MCTS.rootNode.gameBoard, playerId, move);
+            return checkWin(MCTS.rootNode.gameBoard, playerId);
         } else {
             int numIter = 1000;
             while (true) {
                 if (!MCTS.Sim.getAllPossibleMoves(MCTS.rootNode.gameBoard, MCTS.rootNode.currentPlayer).isEmpty()) {
                     int chosenMove = MCTS.findBestPath(numIter);
-                    makeMove(board, playerId, chosenMove);
+                    makeMove(MCTS.rootNode.gameBoard, playerId, chosenMove);
                     MCTS.rootNode = new C4Node(C4Sim.Player2, MCTS.bestPath, MCTS.bestPath.gameBoard,
                             MCTS.bestPath.move);
-                    return checkWin(board, playerId);
+                    return checkWin(MCTS.rootNode.gameBoard, playerId);
                 }
-                return checkWin(board, playerId);
+                return checkWin(MCTS.rootNode.gameBoard, playerId);
             }
         }
 

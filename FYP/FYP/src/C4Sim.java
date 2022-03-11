@@ -45,9 +45,9 @@ public class C4Sim {
     public boolean checkDraw(int[][] board, int player) {
         for (int i = 0; i < board.length; i++) {
             if (board[0][i] == 0)
-                return true;
+                return false;
         }
-        return false;
+        return true;
     }
 
     int GameDecided(int[][] gameBoard, int player) {
