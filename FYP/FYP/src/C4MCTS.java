@@ -44,7 +44,7 @@ class C4MCTS {
                 current.draws++;
             } else if (finalResult == aiPlayer) {
                 current.victories++;
-            } else {
+            } else if (finalResult == 1) {
                 current.losses++;
             }
             if (current.parent == null) { // This runs all the way to the top of the board scoring nodes, even past
@@ -72,7 +72,6 @@ class C4MCTS {
                     current.getKids(Sim);
                 }
                 for (C4Node node : current.children) {
-                    current.numVisits++;
                     node.setUCT();
                 }
                 Collections.sort(current.children);
@@ -86,8 +85,11 @@ class C4MCTS {
 
         C4Node current = null;
         for (int i = 0; i < Sims; i++) {
+            if (i == 800) {
+                i = 800;
+            }
             current = rootNode;
-            int won = Sim.simGameFromNode(current);
+            current.gameState = Sim.simGameFromNode(current);
             backPropagateRollout(current, C4Sim.Player2);
             SetVisits(current);
         }
@@ -96,7 +98,7 @@ class C4MCTS {
 
         for (C4Node child : rootNode.children) {
             child.setUCT();
-            if (child.UCTValue >= highestUCT) {
+            if (child.UCTValue > highestUCT) {
                 bestPath = child;
                 highestUCT = child.UCTValue;
             }

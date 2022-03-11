@@ -79,10 +79,10 @@ public class ConnectFour {
 
     public static boolean validateMove(int[][] board, int playerId, int move) {
         if (move > 6) {
-            System.out.println("Invalid Column");
+            // System.out.println("Invalid Column");
             return false;
         } else if (board[0][move] != 0) {
-            System.out.println("Column full");
+            // System.out.println("Column full");
             return false;
         }
 

@@ -36,8 +36,7 @@ public class C4Sim {
             if (won != CONTINUE_GAME) {
                 return player;
             }
-            player ^= 1;
-
+            player = switchPlayer(player);
         }
 
     }
@@ -55,6 +54,12 @@ public class C4Sim {
             return player;
         }
         return CONTINUE_GAME;
+    }
+
+    static int switchPlayer(int player) {
+        if (player == 1)
+            return 2;
+        return 1;
     }
 
     ArrayList<Integer> getAllPossibleMoves(int[][] gameBoard, int playerId) {
