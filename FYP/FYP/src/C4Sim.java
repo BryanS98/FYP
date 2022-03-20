@@ -16,27 +16,30 @@ public class C4Sim {
     C4Sim() {
     }
 
-    int simGameFromNode(C4Node n) { // do rollout
+    C4Node simGameFromNode(C4Node n) { // do rollout
 
         C4Node current = n;
         int player = current.currentPlayer;
         while (true) { // simulate a random game
-            if (checkDraw(current.gameBoard, current.currentPlayer)) {
-                return DRAW_GAME;
+        	player = switchPlayer(player);
+        	if (checkDraw(current.gameBoard, current.currentPlayer)) {
+        		current.gameState = DRAW_GAME;
+                return current;
             }
             ArrayList<Integer> moves = getAllPossibleMoves(current.gameBoard, current.currentPlayer);
             int size = moves.size();
             int randomMoveIndex = rand.nextInt(size);
             if (current.children.isEmpty()) {
-                current.getKids(this);
+                current.getKids(this, switchPlayer(current.currentPlayer));
             }
             current = current.children.get(randomMoveIndex);
             current.currentPlayer = player;
             int won = GameDecided(current.gameBoard, player);
             if (won != CONTINUE_GAME) {
-                return player;
+            	current.gameState = won;
+                return current;
             }
-            player = switchPlayer(player);
+            
         }
 
     }

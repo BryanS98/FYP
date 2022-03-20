@@ -33,9 +33,9 @@ public class C4Node implements Comparable<C4Node> { // representing the state of
                     + Math.sqrt(2) * Math.sqrt(Math.log(parent.numVisits) / numVisits);
     }
     
-    void getKids(C4Sim sim) {
-        ArrayList<Integer> paths = sim.getAllPossibleMoves(gameBoard, currentPlayer);
-        int p = currentPlayer;
+    void getKids(C4Sim sim, int Player) {
+        ArrayList<Integer> paths = sim.getAllPossibleMoves(gameBoard, Player);
+        int p = Player;
         for (int move : paths) {
             int boardLength = gameBoard.length;
             int[][] nextGameState = new int[boardLength][];
