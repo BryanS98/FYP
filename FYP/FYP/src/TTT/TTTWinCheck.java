@@ -1,3 +1,4 @@
+package TTT;
 public class TTTWinCheck {
 
     public TTTWinCheck() {

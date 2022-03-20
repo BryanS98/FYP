@@ -1,3 +1,4 @@
+package C4;
 import java.util.Collections;
 
 class C4MCTS {

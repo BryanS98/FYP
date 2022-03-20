@@ -1,3 +1,4 @@
+package C4;
 public class CheckWinTests 
 {
     /* EMPTY BOARD

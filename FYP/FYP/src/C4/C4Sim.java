@@ -1,3 +1,4 @@
+package C4;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -69,7 +70,7 @@ public class C4Sim {
 
         ArrayList<Integer> allPossibleMoves = new ArrayList<Integer>(6);
         for (int i = 0; i <= 6; i++) {
-            if (ConnectFour.validateMove(gameBoard, playerId, i)) {
+            if (C4ValidateMove.validateMove(gameBoard, playerId, i, false)) {
                 allPossibleMoves.add(i);
             }
         }
