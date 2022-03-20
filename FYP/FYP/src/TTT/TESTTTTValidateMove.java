@@ -1,7 +1,7 @@
 package TTT;
 
 public class TESTTTTValidateMove {
-	public static void main(String[] args) 
+	public static void runTest() 
 	{
     	int[] OpenBoard = new int[] 
     		{-1,-1,-1,
@@ -20,17 +20,13 @@ public class TESTTTTValidateMove {
             	-1,-1,-1,
             	-1,-1,-1};
         Test("Occupied Position", OccupiedPosition, 0, false);
-    	
-    	
-  
-        	
+    	  	
 	}
 	
 	public static void Test(String testName, int[] board, int move, boolean expectedResult) 
 	{
 		
 		boolean actualResult = TTTSim.validMove(board, move);
-    	
     	var success = actualResult == expectedResult;
     	
     	System.out.println("--------------------------------------------------------------");

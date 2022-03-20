@@ -1,8 +1,8 @@
 package TTT;
 
-public class TESTTTGameDecided {
+public class TESTTTTGameDecided {
 	
-	public static void main(String[] args) 
+	public static void runTest()
 	{
     	int[] p1WinningBoard = new int[] 
     		{1,1,1,

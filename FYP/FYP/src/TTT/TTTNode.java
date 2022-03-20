@@ -35,15 +35,17 @@ public class TTTNode implements Comparable<TTTNode> { // representing the state 
                     + Math.sqrt(2) * Math.sqrt(Math.log(parent.numVisits) / numVisits);
     }
     
-    void getKids(TTTSim sim, int player) {
-        ArrayList<Integer> paths = sim.getAllPossibleMoves(parent.gameBoard);
-        for (Integer i : paths) {
-            int[] nextGameState = parent.gameBoard.clone();
-            nextGameState[i] = parent.currentPlayer;
-            TTTNode child = new TTTNode(parent.currentPlayer, parent, nextGameState, i);
-            child.winner = TTTGameDecided.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
-            child.GameState = -2;
-            this.children.add(child);
+    void getKids(TTTSim sim, int Player) {
+        ArrayList<Integer> paths = sim.getAllPossibleMoves(gameBoard);
+        int p = Player;
+        for (int move : paths) {
+            int boardLength = gameBoard.length;
+            int[] nextGameState = new int[boardLength];
+            nextGameState = gameBoard.clone();
+            nextGameState[move] = Player; 
+            TTTNode child = new TTTNode(p, this, nextGameState, move);
+            child.GameState = TTTGameDecided.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
+            children.add(child);
         }
     }
 }

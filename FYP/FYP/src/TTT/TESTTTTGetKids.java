@@ -4,7 +4,7 @@ package TTT;
 public class TESTTTTGetKids
 {
 	
-	public static void main(String[] args) 
+	public static void runTest() 
 	{
 		
 		int[] p1Circle = new int[] 
