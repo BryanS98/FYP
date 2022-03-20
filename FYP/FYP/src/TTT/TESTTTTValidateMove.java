@@ -1,7 +1,7 @@
 package TTT;
 
 public class TESTTTTValidateMove {
-	public static void main(String[] args) 
+	public static void runTest() 
 	{
     	int[] OpenBoard = new int[] 
     		{-1,-1,-1,
