@@ -19,7 +19,7 @@ class C4MCTS {
                 return current;
             }
             if (current.children.isEmpty()) {
-                current.getKids(Sim);
+                current.getKids(Sim, switchPlayer(current.currentPlayer));
                 return current.children.get(0);
             } else {
                 for (C4Node C4Node : current.children) {
@@ -30,7 +30,7 @@ class C4MCTS {
                 current = current.children.get(0);
                 int visits = (int) current.numVisits;
                 if (visits == 0) {
-                    current.getKids(Sim);
+                    current.getKids(Sim, switchPlayer(current.currentPlayer));
                 }
             }
         }
@@ -69,7 +69,7 @@ class C4MCTS {
             } else {
 
                 if (current.children.size() == 0) {
-                    current.getKids(Sim);
+                    current.getKids(Sim, switchPlayer(current.currentPlayer));
                 }
                 for (C4Node node : current.children) {
                     node.setUCT();
@@ -84,12 +84,13 @@ class C4MCTS {
     public int findBestPath(int Sims) {
 
         C4Node current = null;
+       
         for (int i = 0; i < Sims; i++) {
             if (i == 800) {
                 i = 800;
             }
             current = rootNode;
-            current.gameState = Sim.simGameFromNode(current);
+            current = Sim.simGameFromNode(current);
             backPropagateRollout(current, C4Sim.Player2);
             SetVisits(current);
         }
