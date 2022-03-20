@@ -1,20 +1,9 @@
 package C4;
-public class CheckValidateMove 
+public class TESTC4ValidateMove 
 {
-    /* EMPTY BOARD
-    
-    	//7,6
-    	int[][] board = new int[][] {
-    		{0,0,0,0,0,0,0},
-    		{0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-    	};
-    */
+   
 	
-	public static void main(String[] args) 
+	public static void runTest() 
 	{
     	int[][] p1ValidMove = new int[][] {
     		{0,0,0,0,0,0,0},
