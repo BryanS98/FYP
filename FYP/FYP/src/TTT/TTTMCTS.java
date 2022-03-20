@@ -45,7 +45,7 @@ public class TTTMCTS {
             int[] nextGameState = parent.gameBoard.clone();
             nextGameState[i] = parent.currentPlayer;
             TTTNode child = new TTTNode(parent.currentPlayer, parent, nextGameState, i);
-            child.winner = Sim.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
+            child.winner = TTTGameDecided.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
             parent.children.add(child);
         }
     }
