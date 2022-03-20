@@ -9,7 +9,7 @@ public class ConnectFour {
     static int iter = 0;
     private static C4WinCheck _winChecker = new C4WinCheck();
 
-    public static void main(String args[]) {
+    public static void startGame() {
 
         Connect4(createBoard());
     }

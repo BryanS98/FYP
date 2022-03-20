@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
-    public static void main(String[] args) {
+    public static void startGame() {
 
         TTTMCTS MCTS = new TTTMCTS();
-        int numIter = 2000;
+        int numIter = 500;
         Scanner scan = new Scanner(System.in);
         int[] GameBoard = new int[9];
         Arrays.fill(GameBoard, TTTSim.EMPTY);
@@ -17,7 +17,8 @@ public class TicTacToe {
 
         while (true) { // game loop
         	TTTPrintBoard.printBoard(GameBoard);
-            if (player == 1) {
+           
+        	if (player == 1) {
                 System.out.println("Choose move 1-9");
                 int move = scan.nextInt() - 1;
                 while (!TTTSim.validMove(GameBoard, move)) {
@@ -31,7 +32,9 @@ public class TicTacToe {
                     System.out.println("Player 1 Wins!");
                     break;
                 }
-            } else {
+            } 
+            
+            else {
                 if (!MCTS.Sim.getAllPossibleMoves(MCTS.rootNode.gameBoard).isEmpty())
                     GameBoard[MCTS.findBestPath(numIter)] = 0;
                 else {

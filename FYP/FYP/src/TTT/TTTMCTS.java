@@ -2,9 +2,12 @@ package TTT;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import C4.C4Node;
+import C4.C4Sim;
+
 public class TTTMCTS {
 
-    TTTSim Sim;
+    TTTSim Sim = new TTTSim();
     TTTNode rootNode;
     TTTNode bestPath;
 
@@ -22,19 +25,19 @@ public class TTTMCTS {
 
     void SetVisits(TTTNode current) {
         while (true) {
-            if (current.winner != TTTSim.CONTINUE_GAME) {
+            if (current.GameState != TTTSim.CONTINUE_GAME) {
                 return;
             } else {
+
+                if (current.children.size() == 0) {
+                    current.getKids(Sim, TicTacToe.switchPlayer(current.currentPlayer));
+                }
                 for (TTTNode node : current.children) {
                     node.setUCT();
                 }
-
                 Collections.sort(current.children);
                 current = current.children.get(0);
-                int visits = (int) current.numVisits;
-                if (visits == 0) {
-                    getKids(current);
-                }
+
             }
         }
     }
@@ -71,8 +74,13 @@ public class TTTMCTS {
 
     int findBestPath(int Sims) {
 
+    	TTTNode current = null;
+        
         for (int i = 0; i < Sims; i++) {
-            TTTNode current = rootNode;
+            if (i == 800) {
+                i = 800;
+            }
+            current = rootNode;
             current = Sim.simGameFromNode(current);
             backPropagateRollout(current, 0);
             SetVisits(current);
@@ -82,7 +90,7 @@ public class TTTMCTS {
 
         for (TTTNode child : rootNode.children) {
             child.setUCT();
-            if (child.UCTValue >= highestUCT) {
+            if (child.UCTValue > highestUCT) {
                 bestPath = child;
                 highestUCT = child.UCTValue;
             }

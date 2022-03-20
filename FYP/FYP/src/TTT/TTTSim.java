@@ -30,10 +30,9 @@ public class TTTSim {
             }
             int randomMoveIndex = rand.nextInt(moves.size());
             if (current.children.isEmpty()) {
-                current.getKids(this, TicTacToe.switchPlayer(current.currentPlayer));
+                current.getKids(this, player);
             }
             current = current.children.get(randomMoveIndex);
-            current.currentPlayer = player;
             int won = TTTGameDecided.GameDecided(current.gameBoard, player);
             if (won != CONTINUE_GAME) {
                 current.GameState = won;

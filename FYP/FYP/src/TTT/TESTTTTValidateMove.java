@@ -27,7 +27,6 @@ public class TESTTTTValidateMove {
 	{
 		
 		boolean actualResult = TTTSim.validMove(board, move);
-    	
     	var success = actualResult == expectedResult;
     	
     	System.out.println("--------------------------------------------------------------");
