@@ -20,10 +20,7 @@ public class TESTTTTValidateMove {
             	-1,-1,-1,
             	-1,-1,-1};
         Test("Occupied Position", OccupiedPosition, 0, false);
-    	
-    	
-  
-        	
+    	  	
 	}
 	
 	public static void Test(String testName, int[] board, int move, boolean expectedResult) 
