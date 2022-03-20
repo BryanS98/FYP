@@ -1,3 +1,4 @@
+package TTT;
 import java.util.ArrayList;
 
 public class TTTNode implements Comparable<TTTNode> { // representing the state of the game

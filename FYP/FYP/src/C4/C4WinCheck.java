@@ -1,3 +1,4 @@
+package C4;
 
 public class C4WinCheck {
 
@@ -41,7 +42,7 @@ public class C4WinCheck {
         return false;
     }
 
-    public boolean CheckDiagonalWin(int[][] board, int playerId, int lastRow, int lastCol) {
+    public boolean CheckDiagonalWin(int[][] board, int playerId) {
         // AscendingDiagonalCheck
         for (int i = 3; i < board.length; i++) {
             for (int j = 0; j < board[0].length - 3; j++) {

@@ -1,3 +1,4 @@
+package C4;
 import java.util.ArrayList;
 
 public class C4Node implements Comparable<C4Node> { // representing the state of the game
@@ -42,7 +43,7 @@ public class C4Node implements Comparable<C4Node> { // representing the state of
             for (int i = 0; i < boardLength; i++)
                 nextGameState[i] = gameBoard[i].clone();
 
-            nextGameState = ConnectFour.makeMove(nextGameState, p, move);
+            nextGameState = C4MakeMove.makeMove(nextGameState, p, move);
             C4Node child = new C4Node(p, this, nextGameState, move);
             child.gameState = sim.GameDecided(child.gameBoard, child.currentPlayer); // check if child is end game node
             children.add(child);
